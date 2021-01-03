@@ -1,36 +1,34 @@
-import React, {memo, useState, useCallback, useMemo} from "react"
+import React, {memo, useState} from "react"
 import "./App.css"
+import {useDispatch, useSelector} from "react-redux"
 
-
-const Test = memo(({title, onClick, arrSum}) => {
+const Test = memo(() => {
     console.log("test is working")
-    return <div> <h1 title={title} onClick={() => onClick(Math.random())}> title Test {arrSum} </h1>
+    const storeCounter= useSelector(({counter})=>counter)
+    const dispatch=useDispatch();
+    const  inc=()=>dispatch({type: "INC"})
+    const  dec=()=>dispatch({type: "DEC"})
+    const  res=()=>dispatch({type: "RES"})
+    return <div>
+        <h1>{storeCounter}</h1>
+        <button onClick={inc}>Inc</button>
+        <button onClick={dec}>Dec</button>
+        <button onClick={res}>Res</button>
     </div>
 
 
 });
 
 export default function App() {
+const storeCounter= useSelector(({counter})=>counter)
 
-    const [counter, setCounter] = useState(0);
-    const [arr, setArr] = useState([2, 56, 566, 55, 2, 9, 2, 5, 99, 5, 6, 1, 4, 7, 8, 9, 55, 6644, 78, 0, 12, 2]);
-    console.log(arr)
+return     (
+    <div className="App">
+        {storeCounter}
+        <Test  />
+        < /div>);
 
-    const onclickTest = useCallback((num) => console.log(num), [])
-    const arrSum = useMemo(() => arr.reduce((acc, el) => (acc += el), 0), [arr])
-    const Ascending = useMemo(() => arr.sort((a, b) => a - b), [])
-    const Descending = useMemo(() => arr.sort((a, b) => b - a), [])
-console.log(arr)
-    return <div className='App'>
-        {arr.map(value => value + ",")}
-        <h1 onClick={() => setCounter(prev => prev + 1)}>Test counter {counter}</h1>
-        <h2 onClick={() => setArr(prev => [...prev, Math.floor(Math.random() * 1000)])}>change arr</h2>
-<button onClick={()=>setArr(prev=>Ascending)}>Ascending order</button>
-    <button onClick={()=>setArr(Descending)}>Descending order
-    </button>
 
-        <Test title="test test" onClick={onclickTest} arrSum={arrSum} />
-
-    </div>
 
 }
+
